@@ -1,0 +1,1427 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="theme-color" content="#f8fafc" id="themeColorMeta">
+<title>JLPT N1–N5 學習辭典</title>
+<style>
+:root{
+  --bg:#f8fafc;--card:#fff;--text:#1e293b;--text2:#475569;--muted:#94a3b8;
+  --border:#e2e8f0;--border2:#cbd5e1;--input:#f8fafc;
+  --sakura50:#fff5f7;--sakura100:#ffe3ec;--sakura400:#f687b3;--sakura500:#ed64a6;--sakura600:#d53f8c;
+  --matcha50:#f0fdf4;--matcha100:#dcfce7;--matcha500:#22c55e;--matcha600:#16a34a;
+  --amber50:#fffbeb;--amber100:#fef3c7;--amber500:#f59e0b;--amber600:#d97706;
+  --radius:16px;--sat:env(safe-area-inset-top,0px);--sab:env(safe-area-inset-bottom,0px);
+}
+html.dark{
+  --bg:#0f172a;--card:#1e293b;--text:#f1f5f9;--text2:#cbd5e1;--muted:#64748b;
+  --border:#334155;--border2:#475569;--input:#0f172a;
+  --sakura50:#4a1d2e;--sakura100:#5c2438;--matcha50:#0f2d1a;--matcha100:#123d24;
+  --amber50:#3b2a0a;--amber100:#4a350d;
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Noto Sans TC","Microsoft JhengHei",sans-serif;
+  background:var(--bg);color:var(--text);min-height:100vh;line-height:1.6;
+  padding-bottom:calc(var(--sab) + 24px);transition:background .3s,color .3s;font-size:15px}
+@media(min-width:900px){body{font-size:16px}}
+#errorBanner{display:none;background:#fde0e0;color:#b71c1c;border-bottom:1px solid #e53935;
+  padding:10px 14px;font-size:.8rem;white-space:pre-wrap;word-break:break-all;
+  position:sticky;top:0;z-index:100}
+#errorBanner button{float:right;background:#e53935;color:#fff;border:none;border-radius:6px;
+  padding:2px 8px;font-size:.75rem;cursor:pointer;margin-left:8px}
+header{position:sticky;top:0;z-index:40;background:rgba(255,255,255,.92);
+  border-bottom:1px solid var(--border);backdrop-filter:blur(10px);padding-top:var(--sat)}
+html.dark header{background:rgba(15,23,42,.92)}
+.header-inner{max-width:1180px;margin:0 auto;padding:10px 14px;display:flex;
+  align-items:center;justify-content:space-between;gap:10px}
+.logo{display:flex;align-items:center;gap:10px;min-width:0}
+.logo-icon{width:36px;height:36px;border-radius:10px;
+  background:linear-gradient(135deg,var(--sakura500),var(--matcha500));
+  color:#fff;font-weight:700;display:flex;align-items:center;justify-content:center;
+  font-size:18px;flex-shrink:0}
+.logo-text h1{margin:0;font-size:15px;font-weight:700;
+  background:linear-gradient(90deg,var(--sakura600),var(--matcha600));
+  -webkit-background-clip:text;background-clip:text;color:transparent;
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.logo-text p{margin:0;font-size:11px;color:var(--muted);display:none}
+@media(min-width:640px){.logo-text h1{font-size:17px}.logo-text p{display:block}}
+.header-actions{display:flex;gap:6px;align-items:center}
+.btn{border:1px solid var(--border);background:var(--card);color:var(--text);
+  padding:8px 11px;border-radius:10px;font-size:12px;font-weight:500;cursor:pointer;
+  transition:.2s;display:inline-flex;align-items:center;gap:5px;font-family:inherit}
+.btn:hover{border-color:var(--sakura400)}
+.btn-primary{background:var(--sakura500);color:#fff;border-color:var(--sakura500)}
+.btn-primary:hover{background:var(--sakura600);border-color:var(--sakura600)}
+.btn-icon{padding:8px;font-size:15px;line-height:1}
+main{max-width:1180px;margin:0 auto;padding:14px}
+.cat-tabs{display:flex;gap:6px;overflow-x:auto;padding:4px 0 8px;scrollbar-width:none}
+.cat-tabs::-webkit-scrollbar{display:none}
+.cat-tab{flex:0 0 auto;padding:8px 14px;border-radius:20px;border:1px solid var(--border);
+  background:var(--card);color:var(--text2);font-size:13px;font-weight:600;cursor:pointer;
+  transition:.2s;white-space:nowrap}
+.cat-tab.active{background:var(--sakura500);color:#fff;border-color:var(--sakura500);
+  box-shadow:0 2px 6px rgba(237,100,166,.3)}
+.controls{background:var(--card);border-radius:var(--radius);padding:14px;
+  box-shadow:0 1px 3px rgba(0,0,0,.06);border:1px solid var(--border);margin-bottom:14px}
+.filters-row{display:flex;gap:8px;align-items:center;justify-content:space-between;
+  margin-bottom:10px;flex-wrap:wrap}
+.level-filters{display:flex;gap:6px;overflow-x:auto;scrollbar-width:none;flex:1;min-width:0}
+.level-filters::-webkit-scrollbar{display:none}
+.level-btn{flex:0 0 auto;padding:6px 12px;border-radius:8px;font-size:12px;font-weight:600;
+  border:1px solid var(--border);background:var(--card);color:var(--text2);cursor:pointer;transition:.2s}
+.level-btn.active{background:var(--sakura500);color:#fff;border-color:var(--sakura500)}
+.bookmark-btn{flex:0 0 auto;padding:6px 12px;border-radius:8px;font-size:12px;font-weight:600;
+  border:1px solid var(--amber500);background:var(--amber50);color:var(--amber600);
+  cursor:pointer;display:inline-flex;align-items:center;gap:4px}
+html.dark .bookmark-btn{color:var(--amber100)}
+.bookmark-btn.active{background:var(--amber500);color:#fff}
+.search-row{display:grid;grid-template-columns:1fr;gap:8px}
+@media(min-width:768px){.search-row{grid-template-columns:2fr 1fr}}
+.search-wrap{position:relative}
+.search-wrap input{width:100%;padding:10px 12px 10px 36px;border-radius:12px;
+  border:1px solid var(--border);background:var(--input);color:var(--text);
+  font-size:14px;outline:none;font-family:inherit}
+.search-wrap input:focus{border-color:var(--sakura400);box-shadow:0 0 0 3px var(--sakura100)}
+.search-wrap .icon{position:absolute;left:12px;top:50%;transform:translateY(-50%);
+  color:var(--muted);font-size:14px}
+.quiz-actions{display:flex;gap:8px}
+.quiz-actions .btn{flex:1;justify-content:center;padding:10px 12px}
+.stats{display:flex;justify-content:space-between;align-items:center;margin:0 4px 10px;
+  font-size:13px;color:var(--muted);flex-wrap:wrap;gap:6px}
+.stats .count{color:var(--sakura600);font-weight:700}
+html.dark .stats .count{color:var(--sakura400)}
+.grid{display:grid;grid-template-columns:1fr;gap:12px}
+@media(min-width:640px){.grid{grid-template-columns:repeat(2,1fr)}}
+@media(min-width:1024px){.grid{grid-template-columns:repeat(3,1fr);gap:16px}}
+.card{background:var(--card);border-radius:var(--radius);padding:16px;
+  border:1px solid var(--border);box-shadow:0 1px 3px rgba(0,0,0,.06);
+  transition:.2s;display:flex;flex-direction:column}
+.card:hover{box-shadow:0 4px 12px rgba(0,0,0,.08)}
+.card-head{display:flex;justify-content:space-between;align-items:flex-start;
+  gap:6px;margin-bottom:8px;flex-wrap:wrap}
+.badges{display:flex;gap:5px;flex-wrap:wrap}
+.badge{padding:2px 8px;border-radius:8px;font-size:10px;font-weight:700;
+  display:inline-block;white-space:nowrap}
+.badge-N1{background:#fee2e2;color:#b91c1c}.badge-N2{background:#ffedd5;color:#c2410c}
+.badge-N3{background:#fef3c7;color:#a16207}.badge-N4{background:#d1fae5;color:#047857}
+.badge-N5{background:#dbeafe;color:#1d4ed8}
+html.dark .badge-N1{background:#4c1414;color:#fca5a5}
+html.dark .badge-N2{background:#4a1e08;color:#fdba74}
+html.dark .badge-N3{background:#3b2a0a;color:#fcd34d}
+html.dark .badge-N4{background:#0f2d1a;color:#6ee7b7}
+html.dark .badge-N5{background:#0c1f3d;color:#93c5fd}
+.badge-cat{background:#ede9fe;color:#6d28d9}
+html.dark .badge-cat{background:#2d1b4e;color:#c4b5fd}
+.badge-year{background:var(--input);color:var(--text2)}
+.card-actions{display:flex;gap:6px}
+.card-actions button{background:none;border:none;color:var(--muted);cursor:pointer;
+  padding:4px;font-size:14px;line-height:1;transition:.2s}
+.card-actions button:hover{color:var(--sakura500)}
+.card-actions button.bookmarked{color:var(--amber500)}
+.card-word{font-size:22px;font-weight:700;letter-spacing:.02em;color:var(--text);margin:0 0 2px}
+.card-reading{font-size:13px;color:var(--sakura600);font-weight:500;margin:0 0 8px}
+html.dark .card-reading{color:var(--sakura400)}
+.card-meaning{font-size:14px;font-weight:600;color:var(--text);margin:0 0 10px}
+.card-explain{font-size:13px;color:var(--text2);margin:0 0 10px;line-height:1.5}
+.card-example{background:var(--input);border-radius:10px;padding:10px;
+  border:1px solid var(--border);font-size:12px;color:var(--text2);
+  margin-bottom:10px;line-height:1.55}
+.card-example .quote{display:block;font-size:10px;font-weight:700;
+  color:var(--sakura500);margin-bottom:4px}
+html.dark .card-example .quote{color:var(--sakura400)}
+.card-links{display:flex;flex-wrap:wrap;gap:6px;margin-top:auto;
+  padding-top:10px;border-top:1px solid var(--border)}
+.card-links a{font-size:11px;padding:4px 8px;border-radius:8px;background:var(--input);
+  color:var(--text2);text-decoration:none;border:1px solid var(--border);transition:.2s}
+.card-links a:hover{border-color:var(--sakura400);color:var(--sakura500)}
+.empty{text-align:center;padding:60px 20px;background:var(--card);
+  border-radius:var(--radius);border:1px dashed var(--border2);color:var(--muted)}
+.empty h3{color:var(--text);margin:0 0 6px;font-size:16px}
+.empty p{margin:0 0 16px;font-size:13px}
+.modal{position:fixed;inset:0;z-index:50;display:none;align-items:center;
+  justify-content:center;padding:12px;background:rgba(15,23,42,.6);backdrop-filter:blur(4px)}
+.modal.show{display:flex}
+.modal-panel{background:var(--card);border-radius:20px;width:100%;max-width:520px;
+  max-height:90vh;overflow-y:auto;padding:20px;position:relative;
+  border:1px solid var(--border);box-shadow:0 20px 50px rgba(0,0,0,.25)}
+.modal-panel.wide{max-width:640px}
+.modal-close{position:absolute;top:14px;right:14px;background:none;border:none;
+  color:var(--muted);cursor:pointer;font-size:20px;line-height:1;padding:4px}
+.modal h2{margin:0 0 16px;font-size:17px;display:flex;align-items:center;gap:8px}
+.form-group{margin-bottom:12px}
+.form-group label{display:block;font-size:12px;font-weight:600;
+  color:var(--text2);margin-bottom:5px}
+.form-group input,.form-group textarea,.form-group select{width:100%;padding:10px 12px;
+  border-radius:10px;border:1px solid var(--border);background:var(--input);
+  color:var(--text);font-size:14px;font-family:inherit;outline:none}
+.form-group input:focus,.form-group textarea:focus,.form-group select:focus{
+  border-color:var(--sakura400);box-shadow:0 0 0 3px var(--sakura100)}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+@media(max-width:500px){.form-row{grid-template-columns:1fr}}
+.modal-footer{display:flex;justify-content:flex-end;gap:8px;margin-top:16px;
+  padding-top:14px;border-top:1px solid var(--border)}
+.drawer-panel{position:fixed;top:0;right:0;bottom:0;width:100%;max-width:440px;
+  background:var(--card);z-index:60;
+  padding:20px calc(20px + env(safe-area-inset-right,0)) calc(20px + var(--sab)) 20px;
+  overflow-y:auto;transform:translateX(100%);transition:transform .3s;
+  border-left:1px solid var(--border);box-shadow:-8px 0 30px rgba(0,0,0,.15)}
+.drawer-panel.show{transform:translateX(0)}
+.drawer-backdrop{position:fixed;inset:0;background:rgba(15,23,42,.5);z-index:55;
+  display:none;backdrop-filter:blur(2px)}
+.drawer-backdrop.show{display:block}
+.section-label{font-size:11px;font-weight:700;color:var(--muted);
+  text-transform:uppercase;letter-spacing:.06em;margin:16px 0 8px}
+.section-label:first-child{margin-top:0}
+.flashcard{perspective:1000px;width:100%;height:280px;margin-bottom:20px;cursor:pointer}
+.flashcard-inner{position:relative;width:100%;height:100%;
+  transition:transform .6s cubic-bezier(.4,0,.2,1);
+  transform-style:preserve-3d;-webkit-transform-style:preserve-3d}
+.flashcard-inner.flipped{transform:rotateY(180deg)}
+.fc-face{position:absolute;inset:0;border-radius:16px;
+  backface-visibility:hidden;-webkit-backface-visibility:hidden;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  padding:20px;text-align:center;border:1px solid var(--border)}
+.fc-front{background:linear-gradient(135deg,var(--sakura50),var(--card))}
+.fc-back{background:#1e293b;color:#f1f5f9;transform:rotateY(180deg);-webkit-transform:rotateY(180deg)}
+.fc-back .fc-example{background:rgba(255,255,255,.08);padding:8px 10px;
+  border-radius:8px;font-size:12px;color:#cbd5e1;margin-top:8px;
+  text-align:left;width:100%;font-style:italic}
+.quiz-option{width:100%;padding:12px 14px;margin-bottom:8px;border-radius:12px;
+  border:1px solid var(--border);background:var(--input);color:var(--text);
+  font-size:14px;text-align:left;cursor:pointer;transition:.2s;font-family:inherit}
+.quiz-option:hover:not(:disabled){border-color:var(--matcha500)}
+.quiz-option:disabled{cursor:default}
+.quiz-option.correct{background:#d1fae5;border-color:#10b981;color:#065f46;font-weight:600}
+.quiz-option.wrong{background:#fee2e2;border-color:#ef4444;color:#991b1b;font-weight:600}
+html.dark .quiz-option.correct{background:#064e3b;color:#6ee7b7}
+html.dark .quiz-option.wrong{background:#7f1d1d;color:#fca5a5}
+#toast{position:fixed;left:50%;bottom:calc(24px + var(--sab));transform:translateX(-50%);
+  background:rgba(0,0,0,.85);color:#fff;padding:10px 18px;border-radius:20px;
+  font-size:13px;opacity:0;transition:.3s;pointer-events:none;z-index:200;
+  max-width:90vw;text-align:center}
+#toast.show{opacity:1}
+.footer-hint{text-align:center;font-size:11px;color:var(--muted);
+  margin-top:24px;padding:0 12px}
+</style>
+</head>
+<body>
+
+<div id="errorBanner">
+  <button onclick="this.parentElement.style.display='none'">關閉</button>
+  <strong>⚠️ 程式錯誤</strong>
+  <span id="errorMsg"></span>
+</div>
+
+<header>
+  <div class="header-inner">
+    <div class="logo">
+      <div class="logo-icon">日</div>
+      <div class="logo-text">
+        <h1>JLPT N1–N5 學習辭典</h1>
+        <p>單字 · 文法 · 考試重點 · 模擬試題</p>
+      </div>
+    </div>
+    <div class="header-actions">
+      <button class="btn btn-primary" onclick="openAddModal()">➕</button>
+      <button class="btn" onclick="openDrawer()">🗄️</button>
+      <button class="btn btn-icon" onclick="toggleDarkMode()" id="darkBtn">🌙</button>
+    </div>
+  </div>
+</header>
+
+<main>
+  <div class="cat-tabs" id="catTabs"></div>
+  <section class="controls">
+    <div class="filters-row">
+      <div class="level-filters" id="levelFilters"></div>
+      <button class="bookmark-btn" id="bookmarkBtn" onclick="toggleBookmarkFilter()">
+        ⭐ 收藏 <span id="bookmarkCount">0</span>
+      </button>
+    </div>
+    <div class="search-row">
+      <div class="search-wrap">
+        <span class="icon">🔍</span>
+        <input type="text" id="searchInput" placeholder="搜尋單字、假名、釋義、例句..." oninput="onSearch()">
+      </div>
+      <div class="quiz-actions">
+        <button class="btn btn-primary" onclick="startFlashcardQuiz()">🎴 翻牌測驗</button>
+        <button class="btn btn-primary" onclick="startChoiceQuiz()" style="background:var(--matcha500);border-color:var(--matcha500)">📝 四選一</button>
+      </div>
+    </div>
+  </section>
+  <div class="stats">
+    <span>共 <span class="count" id="countDisplay">0</span> 筆資料</span>
+    <span id="statsHint" style="font-size:11px">支援 OJAD 音調 / Takoboto / Mazii</span>
+  </div>
+  <section class="grid" id="contentGrid"></section>
+  <div class="empty" id="emptyState" style="display:none">
+    <h3>查無相關資料</h3>
+    <p>試試調整搜尋條件</p>
+    <button class="btn btn-primary" onclick="loadDefaultData()">📥 載入預設資料庫</button>
+  </div>
+  <p class="footer-hint">資料內嵌於此檔 · 離線可用</p>
+</main>
+
+<!-- 新增/編輯模態 -->
+<div class="modal" id="addModal">
+  <div class="modal-panel">
+    <button class="modal-close" onclick="closeAddModal()">✕</button>
+    <h2 id="modalTitle">➕ 新增資料</h2>
+    <form id="wordForm" onsubmit="saveWord(event)">
+      <input type="hidden" id="editId">
+      <input type="hidden" id="editCat">
+      <div class="form-group">
+        <label>分類 *</label>
+        <select id="inputCat" onchange="onCatChange()">
+          <option value="vocabulary">單字</option>
+          <option value="grammar">文法</option>
+          <option value="examPoints">考試重點</option>
+          <option value="quiz">模擬試題</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>JLPT 級別 *</label>
+        <select id="inputLevel">
+          <option value="N1">N1</option><option value="N2">N2</option>
+          <option value="N3">N3</option><option value="N4">N4</option>
+          <option value="N5">N5</option>
+        </select>
+      </div>
+      <div id="fields-vocabulary">
+        <div class="form-row">
+          <div class="form-group"><label>日文單字 *</label><input type="text" id="v_word"></div>
+          <div class="form-group"><label>讀音</label><input type="text" id="v_reading"></div>
+        </div>
+        <div class="form-group"><label>詞類</label><input type="text" id="v_category"></div>
+        <div class="form-group"><label>中文釋義 *</label><input type="text" id="v_meaning"></div>
+        <div class="form-group"><label>例句</label><textarea id="v_example" rows="2"></textarea></div>
+      </div>
+      <div id="fields-grammar" style="display:none">
+        <div class="form-group"><label>文法句型 *</label><input type="text" id="g_pattern"></div>
+        <div class="form-group"><label>中文意思 *</label><input type="text" id="g_meaning"></div>
+        <div class="form-group"><label>解說</label><textarea id="g_explanation" rows="2"></textarea></div>
+        <div class="form-group"><label>例句</label><textarea id="g_example" rows="2"></textarea></div>
+      </div>
+      <div id="fields-examPoints" style="display:none">
+        <div class="form-group"><label>標題 *</label><input type="text" id="e_title"></div>
+        <div class="form-group"><label>內容 *</label><textarea id="e_content" rows="3"></textarea></div>
+        <div class="form-group"><label>提示</label><input type="text" id="e_tips"></div>
+      </div>
+      <div id="fields-quiz" style="display:none">
+        <div class="form-group"><label>題目 *</label><textarea id="q_question" rows="2"></textarea></div>
+        <div class="form-group"><label>選項（每行一個）*</label><textarea id="q_options" rows="4"></textarea></div>
+        <div class="form-group"><label>正確答案（1-4）*</label><input type="number" id="q_answer" min="1" max="4" value="1"></div>
+        <div class="form-group"><label>解釋</label><input type="text" id="q_explanation"></div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn" onclick="closeAddModal()">取消</button>
+        <button type="submit" class="btn btn-primary">儲存</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- 測驗模態 -->
+<div class="modal" id="quizModal">
+  <div class="modal-panel wide">
+    <button class="modal-close" onclick="closeQuizModal()">✕</button>
+    <h2><span id="quizTitle"></span><span style="margin-left:auto;font-size:12px;color:var(--muted)" id="quizProgress"></span></h2>
+    <div id="flashcardMode" style="display:none">
+      <div class="flashcard" onclick="flipCard()">
+        <div class="flashcard-inner" id="fcInner">
+          <div class="fc-face fc-front">
+            <div class="badges" style="margin-bottom:10px">
+              <span class="badge badge-N1" id="fcLevel"></span>
+              <span class="badge badge-cat" id="fcCategory"></span>
+            </div>
+            <h3 id="fcWord" style="margin:0 0 6px;font-size:32px;font-weight:800"></h3>
+            <p id="fcReading" style="margin:0;color:var(--sakura600);font-size:14px"></p>
+            <p style="margin-top:16px;font-size:11px;color:var(--muted)">👆 點擊卡片翻面</p>
+          </div>
+          <div class="fc-face fc-back">
+            <p style="margin:0;font-size:11px;color:#94a3b8">中文釋義</p>
+            <h4 id="fcMeaning" style="margin:4px 0 12px;font-size:22px;color:#f687b3"></h4>
+            <div class="fc-example" id="fcExample"></div>
+            <p id="fcYear" style="margin:8px 0 0;font-size:11px;color:#94a3b8"></p>
+          </div>
+        </div>
+      </div>
+      <div style="display:flex;gap:10px">
+        <button class="btn" style="flex:1;justify-content:center" onclick="prevCard()">← 上一張</button>
+        <button class="btn btn-primary" style="flex:1;justify-content:center" onclick="nextCard()">下一張 →</button>
+      </div>
+    </div>
+    <div id="choiceMode" style="display:none">
+      <div style="text-align:center;margin-bottom:20px">
+        <div class="badges" style="justify-content:center;margin-bottom:6px">
+          <span class="badge badge-N5" id="mcLevel"></span>
+          <span class="badge badge-cat" id="mcCategory"></span>
+        </div>
+        <h3 id="mcWord" style="margin:6px 0 2px;font-size:28px;font-weight:800"></h3>
+        <p id="mcReading" style="margin:0;color:var(--sakura600);font-size:13px"></p>
+      </div>
+      <div id="mcOptions"></div>
+      <div id="mcFeedback" style="text-align:center;font-weight:600;font-size:14px;min-height:24px;margin-top:12px"></div>
+    </div>
+  </div>
+</div>
+
+<!-- 管理抽屜 -->
+<div class="drawer-backdrop" id="drawerBackdrop" onclick="closeDrawer()"></div>
+<aside class="drawer-panel" id="drawerPanel">
+  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px">
+    <h2 style="margin:0;font-size:17px">🗄️ 資料庫管理</h2>
+    <button class="modal-close" style="position:static" onclick="closeDrawer()">✕</button>
+  </div>
+  <div class="section-label">📥 載入</div>
+  <div style="display:grid;gap:8px">
+    <button class="btn" onclick="loadDefaultData()">📦 載入內建資料</button>
+  </div>
+  <div class="section-label">💾 匯出</div>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+    <button class="btn" onclick="exportJSON()">📤 JSON</button>
+    <button class="btn" onclick="exportCSV()">📤 CSV</button>
+  </div>
+  <div class="section-label">📂 匯入</div>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+    <label class="btn" style="justify-content:center">📥 JSON
+      <input type="file" accept=".json" hidden onchange="importJSONFile(event)"></label>
+    <label class="btn" style="justify-content:center">📥 CSV
+      <input type="file" accept=".csv,.tsv,.txt" hidden onchange="importCSVFile(event)"></label>
+  </div>
+  <div class="section-label">⚠️ 重置</div>
+  <button class="btn" style="width:100%;justify-content:center;color:#dc2626;border-color:#fca5a5" onclick="resetAll()">🗑️ 清除自訂並還原</button>
+  <div class="section-label">ℹ️ 資訊</div>
+  <p style="font-size:12px;color:var(--muted);line-height:1.6">
+    • 資料儲存於瀏覽器 localStorage<br>
+    • 換裝置請用 JSON 匯出／匯入
+  </p>
+</aside>
+
+<!-- 貼上 JSON 模態 -->
+<div class="modal" id="pasteModal">
+  <div class="modal-panel">
+    <button class="modal-close" onclick="closePasteModal()">✕</button>
+    <h2>📋 貼上 JSON 匯入（合併）</h2>
+    <p style="font-size:12px;color:var(--muted);margin-top:-8px">
+      支援：完整物件（四類）、純陣列（單字）
+    </p>
+    <textarea id="pasteInput" rows="10" style="width:100%;padding:12px;border-radius:12px;border:1px solid var(--border);background:var(--input);color:var(--text);font-family:monospace;font-size:12px"
+      placeholder='[{"word":"頑丈","reading":"がんじょう","meaning":"堅固","level":"N1"}]'></textarea>
+    <div class="modal-footer">
+      <button class="btn" onclick="closePasteModal()">取消</button>
+      <button class="btn btn-primary" onclick="processPastedJSON()">確認匯入</button>
+    </div>
+  </div>
+</div>
+
+<div id="toast"></div>
+
+<!-- ============================================================ -->
+<!-- ===== 貼上語法 JSON =====                                     -->
+<!-- 把 deepseek_json_All.json 的「全部內容」貼在下面這兩個標籤之間 -->
+<!-- 從 { 開始，到 } 為止                                          -->
+<!-- ============================================================ -->
+<script type="application/json" id="json-grammar">
+{
+  "vocabulary": [],
+  "grammar": [],
+  "examPoints": [],
+  "quiz": []
+}
+</script>
+
+<!-- ============================================================ -->
+<!-- ===== 貼上單字 JSON =====                                     -->
+<!-- 把 jlpt_words_backup_2026-10-09.json 的「全部內容」貼在下面   -->
+<!-- 從 [ 開始，到 ] 為止                                          -->
+<!-- ============================================================ -->
+<script type="application/json" id="json-words">
+[]
+</script>
+
+<script>
+/* ===== 全域錯誤顯示 ===== */
+window.onerror=function(msg,url,line,col,err){
+  var b=document.getElementById('errorBanner'),m=document.getElementById('errorMsg');
+  if(b&&m){b.style.display='block';m.textContent=msg+' @'+line+':'+col+(err&&err.stack?'\n'+err.stack:'');}
+  return false;
+};
+window.addEventListener('unhandledrejection',function(e){
+  var b=document.getElementById('errorBanner'),m=document.getElementById('errorMsg');
+  if(b&&m){b.style.display='block';m.textContent='Promise: '+(e.reason&&e.reason.message?e.reason.message:e.reason);}
+});
+
+/* ===== 內建資料庫 ===== */
+const DEFAULT_DATA = {
+  vocabulary: [
+    {id:"v001",level:"N5",word:"食べる",reading:"たべる",meaning:"吃",category:"動詞・五段",example:"ご飯を食べる。",year:""},
+    {id:"v002",level:"N5",word:"飲む",reading:"のむ",meaning:"喝",category:"動詞・五段",example:"水を飲む。",year:""},
+    {id:"v003",level:"N5",word:"見る",reading:"みる",meaning:"看",category:"動詞・一段",example:"テレビを見る。",year:""},
+    {id:"v004",level:"N5",word:"聞く",reading:"きく",meaning:"聽；問",category:"動詞・五段",example:"音楽を聞く。",year:""},
+    {id:"v005",level:"N5",word:"話す",reading:"はなす",meaning:"說",category:"動詞・五段",example:"日本語を話す。",year:""},
+    {id:"v006",level:"N5",word:"大きい",reading:"おおきい",meaning:"大的",category:"い形容詞",example:"大きい家。",year:""},
+    {id:"v007",level:"N5",word:"学校",reading:"がっこう",meaning:"學校",category:"名詞",example:"学校へ行きます。",year:""},
+    {id:"v008",level:"N5",word:"先生",reading:"せんせい",meaning:"老師",category:"名詞",example:"先生に聞く。",year:""},
+    {id:"v009",level:"N5",word:"友達",reading:"ともだち",meaning:"朋友",category:"名詞",example:"友達と遊ぶ。",year:""},
+    {id:"v010",level:"N5",word:"時間",reading:"じかん",meaning:"時間",category:"名詞",example:"時間がない。",year:""},
+    {id:"v101",level:"N4",word:"経験",reading:"けいけん",meaning:"經驗",category:"名詞・サ変",example:"海外で働いた経験がある。",year:""},
+    {id:"v102",level:"N4",word:"準備",reading:"じゅんび",meaning:"準備",category:"名詞・サ変",example:"旅行の準備をする。",year:""},
+    {id:"v103",level:"N4",word:"説明",reading:"せつめい",meaning:"說明",category:"名詞・サ変",example:"先生が説明する。",year:""},
+    {id:"v104",level:"N4",word:"相談",reading:"そうだん",meaning:"商量",category:"名詞・サ変",example:"友達に相談する。",year:""},
+    {id:"v105",level:"N4",word:"残念",reading:"ざんねん",meaning:"可惜",category:"な形容詞",example:"残念ながら行けない。",year:""},
+    {id:"v106",level:"N4",word:"簡単",reading:"かんたん",meaning:"簡單",category:"な形容詞",example:"簡単な問題。",year:""},
+    {id:"v107",level:"N4",word:"続ける",reading:"つづける",meaning:"繼續",category:"動詞・一段",example:"勉強を続ける。",year:""},
+    {id:"v108",level:"N4",word:"決める",reading:"きめる",meaning:"決定",category:"動詞・一段",example:"場所を決める。",year:""},
+    {id:"v109",level:"N4",word:"調べる",reading:"しらべる",meaning:"查",category:"動詞・一段",example:"意味を調べる。",year:""},
+    {id:"v110",level:"N4",word:"選ぶ",reading:"えらぶ",meaning:"選擇",category:"動詞・五段",example:"好きなものを選ぶ。",year:""},
+    {id:"v201",level:"N3",word:"影響",reading:"えいきょう",meaning:"影響",category:"名詞・サ変",example:"天気が影響する。",year:""},
+    {id:"v202",level:"N3",word:"環境",reading:"かんきょう",meaning:"環境",category:"名詞",example:"環境を守る。",year:""},
+    {id:"v203",level:"N3",word:"経済",reading:"けいざい",meaning:"經濟",category:"名詞",example:"経済が成長する。",year:""},
+    {id:"v204",level:"N3",word:"文化",reading:"ぶんか",meaning:"文化",category:"名詞",example:"日本の文化。",year:""},
+    {id:"v205",level:"N3",word:"伝統",reading:"でんとう",meaning:"傳統",category:"名詞",example:"伝統を守る。",year:""},
+    {id:"v206",level:"N3",word:"情報",reading:"じょうほう",meaning:"資訊",category:"名詞",example:"情報を集める。",year:""},
+    {id:"v207",level:"N3",word:"増える",reading:"ふえる",meaning:"增加",category:"動詞・一段",example:"人口が増える。",year:""},
+    {id:"v208",level:"N3",word:"減る",reading:"へる",meaning:"減少",category:"動詞・五段",example:"体重が減る。",year:""},
+    {id:"v209",level:"N3",word:"比べる",reading:"くらべる",meaning:"比較",category:"動詞・一段",example:"値段を比べる。",year:""},
+    {id:"v210",level:"N3",word:"断る",reading:"ことわる",meaning:"拒絕",category:"動詞・五段",example:"誘いを断る。",year:""},
+    {id:"v301",level:"N2",word:"傾向",reading:"けいこう",meaning:"傾向",category:"名詞",example:"増える傾向がある。",year:""},
+    {id:"v302",level:"N2",word:"現象",reading:"げんしょう",meaning:"現象",category:"名詞",example:"自然現象。",year:""},
+    {id:"v303",level:"N2",word:"制度",reading:"せいど",meaning:"制度",category:"名詞",example:"新しい制度。",year:""},
+    {id:"v304",level:"N2",word:"政策",reading:"せいさく",meaning:"政策",category:"名詞",example:"政府の政策。",year:""},
+    {id:"v305",level:"N2",word:"企業",reading:"きぎょう",meaning:"企業",category:"名詞",example:"大手企業。",year:""},
+    {id:"v306",level:"N2",word:"課題",reading:"かだい",meaning:"課題",category:"名詞",example:"解決すべき課題。",year:""},
+    {id:"v307",level:"N2",word:"対策",reading:"たいさく",meaning:"對策",category:"名詞",example:"地震対策。",year:""},
+    {id:"v308",level:"N2",word:"実施",reading:"じっし",meaning:"實施",category:"名詞・サ変",example:"計画を実施する。",year:""},
+    {id:"v309",level:"N2",word:"維持",reading:"いじ",meaning:"維持",category:"名詞・サ変",example:"健康を維持する。",year:""},
+    {id:"v310",level:"N2",word:"改善",reading:"かいぜん",meaning:"改善",category:"名詞・サ変",example:"環境を改善する。",year:""},
+    {id:"v401",level:"N1",word:"概念",reading:"がいねん",meaning:"概念",category:"名詞",example:"新しい概念。",year:""},
+    {id:"v402",level:"N1",word:"本質",reading:"ほんしつ",meaning:"本質",category:"名詞",example:"問題の本質。",year:""},
+    {id:"v403",level:"N1",word:"要素",reading:"ようそ",meaning:"要素",category:"名詞",example:"重要な要素。",year:""},
+    {id:"v404",level:"N1",word:"構造",reading:"こうぞう",meaning:"構造",category:"名詞",example:"社会の構造。",year:""},
+    {id:"v405",level:"N1",word:"過程",reading:"かてい",meaning:"過程",category:"名詞",example:"成長の過程。",year:""},
+    {id:"v406",level:"N1",word:"把握",reading:"はあく",meaning:"掌握",category:"名詞・サ変",example:"状況を把握する。",year:""},
+    {id:"v407",level:"N1",word:"貢献",reading:"こうけん",meaning:"貢獻",category:"名詞・サ変",example:"社会に貢献する。",year:""},
+    {id:"v408",level:"N1",word:"克服",reading:"こくふく",meaning:"克服",category:"名詞・サ変",example:"困難を克服する。",year:""},
+    {id:"v409",level:"N1",word:"懸念",reading:"けねん",meaning:"擔憂",category:"名詞・サ変",example:"安全性に懸念がある。",year:""},
+    {id:"v410",level:"N1",word:"踏まえる",reading:"ふまえる",meaning:"根據、考量",category:"動詞・一段",example:"現状を踏まえて考える。",year:""}
+  ],
+  grammar: [
+    {id:"g001",level:"N5",pattern:"〜は〜です",meaning:"…是…",explanation:"最基本的判斷句。",example:"私は学生です。"},
+    {id:"g002",level:"N5",pattern:"〜があります／います",meaning:"有…",explanation:"無生命用あります，有生命用います。",example:"机の上に本があります。"},
+    {id:"g003",level:"N5",pattern:"〜を〜ます",meaning:"做…",explanation:"他動詞句型。",example:"ご飯を食べます。"},
+    {id:"g004",level:"N5",pattern:"〜へ行きます",meaning:"去…",explanation:"「へ」表方向。",example:"学校へ行きます。"},
+    {id:"g005",level:"N5",pattern:"〜で〜ます",meaning:"在…做…",explanation:"「で」表動作場所。",example:"図書館で勉強します。"},
+    {id:"g006",level:"N5",pattern:"〜が好きです",meaning:"喜歡…",explanation:"喜好表現。",example:"音楽が好きです。"},
+    {id:"g007",level:"N5",pattern:"〜たいです",meaning:"想要…",explanation:"表示願望。",example:"日本へ行きたいです。"},
+    {id:"g008",level:"N5",pattern:"〜てください",meaning:"請…",explanation:"請求表現。",example:"ここに書いてください。"},
+    {id:"g009",level:"N5",pattern:"〜ています",meaning:"正在…",explanation:"動作進行。",example:"本を読んでいます。"},
+    {id:"g010",level:"N5",pattern:"〜ませんか",meaning:"要不要…？",explanation:"邀請表現。",example:"一緒に行きませんか。"},
+    {id:"g101",level:"N4",pattern:"〜たことがある",meaning:"曾經…",explanation:"經驗表現。",example:"京都へ行ったことがある。"},
+    {id:"g102",level:"N4",pattern:"〜たほうがいい",meaning:"最好…",explanation:"建議表現。",example:"早く寝たほうがいい。"},
+    {id:"g103",level:"N4",pattern:"〜なければならない",meaning:"必須…",explanation:"義務表現。",example:"宿題をしなければならない。"},
+    {id:"g104",level:"N4",pattern:"〜てもいい",meaning:"可以…",explanation:"許可表現。",example:"ここに座ってもいいですか。"},
+    {id:"g105",level:"N4",pattern:"〜てはいけない",meaning:"不可以…",explanation:"禁止表現。",example:"ここで写真を撮ってはいけない。"},
+    {id:"g106",level:"N4",pattern:"〜そうです（樣態）",meaning:"看起來…",explanation:"外觀判斷。",example:"このケーキはおいしそうです。"},
+    {id:"g107",level:"N4",pattern:"〜そうです（傳聞）",meaning:"聽說…",explanation:"轉述資訊。",example:"明日雨が降るそうです。"},
+    {id:"g108",level:"N4",pattern:"〜たら",meaning:"如果…",explanation:"條件表現。",example:"雨が降ったら、行きません。"},
+    {id:"g109",level:"N4",pattern:"〜のに",meaning:"明明…卻…",explanation:"逆接。",example:"勉強したのに、合格できなかった。"},
+    {id:"g110",level:"N4",pattern:"〜ので",meaning:"因為…",explanation:"客觀原因。",example:"雨なので、行きません。"},
+    {id:"g201",level:"N3",pattern:"〜わけだ",meaning:"難怪…",explanation:"納得。",example:"寒いわけだ。雪が降っている。"},
+    {id:"g202",level:"N3",pattern:"〜わけではない",meaning:"並非…",explanation:"部分否定。",example:"嫌いなわけではない。"},
+    {id:"g203",level:"N3",pattern:"〜はずだ",meaning:"應該…",explanation:"推測。",example:"彼はもう着いたはずだ。"},
+    {id:"g204",level:"N3",pattern:"〜べきだ",meaning:"應該…",explanation:"義務。",example:"約束は守るべきだ。"},
+    {id:"g205",level:"N3",pattern:"〜ことになる",meaning:"決定…",explanation:"客觀決定。",example:"来月転勤することになった。"},
+    {id:"g206",level:"N3",pattern:"〜ことにする",meaning:"決定…",explanation:"主觀決定。",example:"毎日運動することにした。"},
+    {id:"g207",level:"N3",pattern:"〜ようにする",meaning:"盡量…",explanation:"努力養成。",example:"早く寝るようにしている。"},
+    {id:"g208",level:"N3",pattern:"〜ようになる",meaning:"變得…",explanation:"變化。",example:"日本語が話せるようになった。"},
+    {id:"g209",level:"N3",pattern:"〜おかげで",meaning:"多虧…",explanation:"正面原因。",example:"先生のおかげで合格した。"},
+    {id:"g210",level:"N3",pattern:"〜せいで",meaning:"因為…（負面）",explanation:"負面原因。",example:"雨のせいで遅れた。"},
+    {id:"g301",level:"N2",pattern:"〜に違いない",meaning:"一定是…",explanation:"強烈推測。",example:"彼がやったに違いない。"},
+    {id:"g302",level:"N2",pattern:"〜に限らず",meaning:"不限於…",explanation:"範圍擴張。",example:"男性に限らず、女性も多い。"},
+    {id:"g303",level:"N2",pattern:"〜に反して",meaning:"與…相反",explanation:"逆接。",example:"予想に反して、雨が降った。"},
+    {id:"g304",level:"N2",pattern:"〜をめぐって",meaning:"圍繞…",explanation:"爭論主題。",example:"環境問題をめぐって議論する。"},
+    {id:"g305",level:"N2",pattern:"〜を通じて",meaning:"透過…",explanation:"手段。",example:"友人を通じて知り合った。"},
+    {id:"g306",level:"N2",pattern:"〜を問わず",meaning:"不論…",explanation:"不受限制。",example:"年齢を問わず参加できる。"},
+    {id:"g307",level:"N2",pattern:"〜次第",meaning:"一…就…",explanation:"立刻。",example:"決まり次第連絡する。"},
+    {id:"g308",level:"N2",pattern:"〜ものの",meaning:"雖然…但是…",explanation:"逆接。",example:"買ったものの、使っていない。"},
+    {id:"g309",level:"N2",pattern:"〜ざるを得ない",meaning:"不得不…",explanation:"無奈義務。",example:"行かざるを得ない。"},
+    {id:"g310",level:"N2",pattern:"〜かねない",meaning:"有可能…（負面）",explanation:"負面可能。",example:"事故を起こしかねない。"},
+    {id:"g401",level:"N1",pattern:"〜が早いか",meaning:"一…就…",explanation:"瞬間。",example:"ベルが鳴るが早いか、学生たちは飛び出した。"},
+    {id:"g402",level:"N1",pattern:"〜や否や",meaning:"一…就…",explanation:"書面瞬間。",example:"帰るや否や、寝てしまった。"},
+    {id:"g403",level:"N1",pattern:"〜そばから",meaning:"一…就…（反覆）",explanation:"反覆。",example:"掃除するそばから、子供が散らかす。"},
+    {id:"g404",level:"N1",pattern:"〜がてら",meaning:"順便…",explanation:"順道。",example:"散歩がてら、買い物に行く。"},
+    {id:"g405",level:"N1",pattern:"〜とあって",meaning:"因為…",explanation:"特殊原因。",example:"連休とあって、観光地は混雑している。"},
+    {id:"g406",level:"N1",pattern:"〜なしに",meaning:"沒有…就…",explanation:"否定條件。",example:"努力なしに成功はない。"},
+    {id:"g407",level:"N1",pattern:"〜ならでは",meaning:"只有…才…",explanation:"獨特。",example:"日本ならではの文化。"},
+    {id:"g408",level:"N1",pattern:"〜べく",meaning:"為了…",explanation:"書面目的。",example:"試験に合格すべく、勉強する。"},
+    {id:"g409",level:"N1",pattern:"〜まじき",meaning:"不該…",explanation:"不當。",example:"許すまじき行為だ。"},
+    {id:"g410",level:"N1",pattern:"〜であれ",meaning:"無論…",explanation:"讓步。",example:"誰であれ、規則は守るべきだ。"}
+  ],
+  examPoints: [
+    {id:"e001",level:"N5",title:"助詞「は」與「が」的區別",content:"「は」提示主題，「が」提示主語。",tips:"初次出現用が，後續用は。"},
+    {id:"e002",level:"N5",title:"動詞三類",content:"五段、一段、不規則（する、来る）。",tips:"先記不規則。"},
+    {id:"e003",level:"N5",title:"い形容詞與な形容詞",content:"い形容詞直接修飾名詞；な形容詞需加「な」。",tips:"いい→よい。"},
+    {id:"e004",level:"N5",title:"時間表達",content:"「に」用於具體時間點，「ごろ」表大約。",tips:"今日、明日不用に。"},
+    {id:"e101",level:"N4",title:"て形變化",content:"五段動詞依語尾變化。",tips:"う/つ/る→って。"},
+    {id:"e102",level:"N4",title:"授受動詞",content:"あげる、もらう、くれる的區別。",tips:"主語視角。"},
+    {id:"e103",level:"N4",title:"使役與被動",content:"使役表讓…做；被動表被…。",tips:"使役被動形要特別記。"},
+    {id:"e104",level:"N4",title:"條件形",content:"と、ば、たら、なら的差異。",tips:"と表必然，ば表假設。"},
+    {id:"e201",level:"N3",title:"自動詞與他動詞",content:"自動詞表狀態，他動詞表動作。",tips:"ドアが開く／ドアを開ける。"},
+    {id:"e202",level:"N3",title:"複合助詞",content:"について、に対して、によって等。",tips:"依語境判斷。"},
+    {id:"e203",level:"N3",title:"推測表現",content:"ようだ、みたいだ、らしい、はずだ。",tips:"らしい表傳聞。"},
+    {id:"e204",level:"N3",title:"敬語進階",content:"お〜になる、〜させていただく。",tips:"商務場合常用。"},
+    {id:"e301",level:"N2",title:"書面語表現",content:"に際して、にあたって、をめぐって。",tips:"正式文章。"},
+    {id:"e302",level:"N2",title:"讓步表現",content:"ものの、とはいえ、にもかかわらず。",tips:"逆接程度不同。"},
+    {id:"e303",level:"N2",title:"強調否定",content:"わけではない、とは限らない。",tips:"部分否定。"},
+    {id:"e304",level:"N2",title:"時間相關",content:"次第、とたん、やいなや。",tips:"瞬間性強弱不同。"},
+    {id:"e401",level:"N1",title:"文語體表現",content:"べく、んがため、まじき。",tips:"新聞、論說文。"},
+    {id:"e402",level:"N1",title:"高度讓步",content:"であれ、といえども、とはいえ。",tips:"正式書面。"},
+    {id:"e403",level:"N1",title:"雙重否定",content:"ずにはおかない、ずにはすまない。",tips:"語感差異。"},
+    {id:"e404",level:"N1",title:"瞬間表現",content:"が早いか、や否や、そばから、なり。",tips:"多為書面語。"}
+  ],
+  quiz: [
+    {id:"q001",level:"N5",question:"「食べる」的讀音是？",options:["たべる","のむ","みる","きく"],answer:0,explanation:"食べる＝たべる"},
+    {id:"q002",level:"N5",question:"「水を___」填入適當動詞？",options:["食べる","飲む","見る","聞く"],answer:1,explanation:"水を飲む"},
+    {id:"q003",level:"N5",question:"「私は学生___。」",options:["です","ます","ある","いる"],answer:0,explanation:"名詞＋です"},
+    {id:"q004",level:"N5",question:"「学校___行きます。」",options:["を","に","で","と"],answer:1,explanation:"へ/に表方向"},
+    {id:"q005",level:"N5",question:"「机の上に本___あります。」",options:["が","を","に","で"],answer:0,explanation:"存在主語用が"},
+    {id:"q006",level:"N5",question:"「音楽___好きです。」",options:["を","が","に","で"],answer:1,explanation:"好き用が"},
+    {id:"q101",level:"N4",question:"「京都へ行った___がある。」",options:["こと","もの","とき","ところ"],answer:0,explanation:"〜たことがある"},
+    {id:"q102",level:"N4",question:"「早く寝た___がいい。」",options:["こと","もの","ほう","とき"],answer:2,explanation:"〜たほうがいい"},
+    {id:"q103",level:"N4",question:"「宿題をし___ならない。」",options:["ては","れば","なければ","たら"],answer:2,explanation:"〜なければならない"},
+    {id:"q104",level:"N4",question:"「ここに座っ___いいですか。」",options:["ても","では","た","ては"],answer:0,explanation:"〜てもいい"},
+    {id:"q105",level:"N4",question:"「ここで写真を撮っ___いけない。」",options:["ても","ては","たら","れば"],answer:1,explanation:"〜てはいけない"},
+    {id:"q201",level:"N3",question:"「寒い___だ。雪が降っている。」",options:["わけ","はず","べき","もの"],answer:0,explanation:"〜わけだ"},
+    {id:"q202",level:"N3",question:"「彼はもう着いた___だ。」",options:["わけ","はず","べき","もの"],answer:1,explanation:"〜はずだ"},
+    {id:"q203",level:"N3",question:"「約束は守る___だ。」",options:["わけ","はず","べき","もの"],answer:2,explanation:"〜べきだ"},
+    {id:"q204",level:"N3",question:"「毎日運動する___にした。」",options:["こと","もの","よう","わけ"],answer:0,explanation:"〜ことにする"},
+    {id:"q205",level:"N3",question:"「日本語が話せる___なった。」",options:["こと","もの","よう","わけ"],answer:2,explanation:"〜ようになる"},
+    {id:"q301",level:"N2",question:"「彼がやった___ない。」",options:["に違い","に限","に反","をめぐ"],answer:0,explanation:"〜に違いない"},
+    {id:"q302",level:"N2",question:"「予想___して、雨が降った。」",options:["に違い","に限","に反","をめぐ"],answer:2,explanation:"〜に反して"},
+    {id:"q303",level:"N2",question:"「年齢___参加できる。」",options:["に限らず","を問わず","に反して","をめぐって"],answer:1,explanation:"〜を問わず"},
+    {id:"q304",level:"N2",question:"「決まり___連絡する。」",options:["次第","ものの","こと","わけ"],answer:0,explanation:"〜次第"},
+    {id:"q305",level:"N2",question:"「行か___を得ない。」",options:["ざる","ず","ない","ぬ"],answer:0,explanation:"〜ざるを得ない"},
+    {id:"q401",level:"N1",question:"「ベルが鳴る___、学生は飛び出した。」",options:["が早いか","そばから","なり","や否や"],answer:0,explanation:"〜が早いか"},
+    {id:"q402",level:"N1",question:"「掃除する___、子供が散らかす。」",options:["が早いか","そばから","なり","や否や"],answer:1,explanation:"〜そばから"},
+    {id:"q403",level:"N1",question:"「散歩___、買い物に行く。」",options:["がてら","かたがた","ついでに","ながら"],answer:0,explanation:"〜がてら"},
+    {id:"q404",level:"N1",question:"「努力___に成功はない。」",options:["とあって","とあれば","なしに","ならでは"],answer:2,explanation:"〜なしに"},
+    {id:"q405",level:"N1",question:"「日本___の文化。」",options:["とあって","ならでは","なしに","たるもの"],answer:1,explanation:"〜ならでは"}
+  ]
+};
+
+/* ===== 讀取嵌入的兩個 JSON ===== */
+function readEmbeddedJSON(id){
+  const el = document.getElementById(id);
+  if(!el) return null;
+  const raw = el.textContent.trim();
+  if(!raw) return null;
+  try{ return JSON.parse(raw); }
+  catch(e){ console.warn('JSON ' + id + ' 解析失敗', e); return null; }
+}
+
+/* ===== 合併函式：把三份資料合併成一份 ===== */
+function buildMergedData(){
+  const base = JSON.parse(JSON.stringify(DEFAULT_DATA));
+
+  // 合併語法 JSON（deepseek_json_All.json）
+  const grammarJson = readEmbeddedJSON('json-grammar');
+  if(grammarJson && typeof grammarJson === 'object'){
+    ['vocabulary','grammar','examPoints','quiz'].forEach(cat=>{
+      if(Array.isArray(grammarJson[cat])){
+        grammarJson[cat].forEach((item,i)=>{
+          if(item && typeof item === 'object'){
+            item.id = item.id || (cat[0] + '_ext_' + i + '_' + Math.floor(Math.random()*10000));
+            base[cat].push(item);
+          }
+        });
+      }
+    });
+  }
+
+  // 合併單字 JSON（jlpt_words_backup_2026-10-09.json）
+  const wordsJson = readEmbeddedJSON('json-words');
+  if(Array.isArray(wordsJson)){
+    const seen = new Set();
+    // 先把內建單字寫入 set 避免重複
+    base.vocabulary.forEach(w=>{ if(w.word) seen.add(w.word); });
+
+    wordsJson.forEach((w, i)=>{
+      if(!w || !w.word) return;
+      // 跳過重複（同一個 word 只保留一次）
+      if(seen.has(w.word)) return;
+      seen.add(w.word);
+      base.vocabulary.push({
+        id: w.id || ('wv_' + i),
+        level: w.level || 'N1',
+        word: w.word,
+        reading: w.reading || '',
+        meaning: w.meaning || '',
+        category: w.category || '',
+        example: w.example || '',
+        year: w.year || ''
+      });
+    });
+  }
+
+  return base;
+}
+
+/* ===== 儲存安全版 ===== */
+const STORAGE_KEY = "jlpt_study_v4";
+const BOOKMARK_KEY = "jlpt_bookmarks_v4";
+
+function cloneDefault(){
+  try{ return buildMergedData(); }
+  catch(e){ console.error('buildMergedData 失敗', e); return {vocabulary:[],grammar:[],examPoints:[],quiz:[]}; }
+}
+function isValidData(d){
+  return d && typeof d === "object"
+    && Array.isArray(d.vocabulary) && Array.isArray(d.grammar)
+    && Array.isArray(d.examPoints) && Array.isArray(d.quiz);
+}
+function safeGet(key){
+  try{ if(typeof localStorage !== "undefined" && localStorage) return localStorage.getItem(key); }
+  catch(e){ console.warn("localStorage 讀取失敗", e); }
+  return null;
+}
+function safeSet(key, val){
+  try{ if(typeof localStorage !== "undefined" && localStorage){ localStorage.setItem(key, val); return true; } }
+  catch(e){ console.warn("localStorage 寫入失敗", e); }
+  return false;
+}
+function safeRemove(key){
+  try{ if(typeof localStorage !== "undefined" && localStorage) localStorage.removeItem(key); }
+  catch(e){}
+}
+
+let DATA = {vocabulary:[],grammar:[],examPoints:[],quiz:[]};
+let STATE = {cat:"vocabulary", level:"ALL", keyword:"", bookmarkOnly:false};
+let BOOKMARKS = new Set();
+let quizState = {mode:null, list:[], index:0, flipped:false};
+
+const CATS = [
+  {id:"vocabulary", label:"📖 單字"},
+  {id:"grammar", label:"📝 文法"},
+  {id:"examPoints", label:"🎯 考試重點"},
+  {id:"quiz", label:"🧪 模擬試題"}
+];
+const LEVELS = ["ALL","N1","N2","N3","N4","N5"];
+
+let toastTimer;
+function toast(msg){
+  const el = document.getElementById("toast");
+  if(!el) return;
+  el.textContent = msg;
+  el.classList.add("show");
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(()=>el.classList.remove("show"), 2200);
+}
+
+function initDarkMode(){
+  const saved = safeGet("jlpt_theme");
+  const prefersDark = window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches;
+  const isDark = saved ? saved === "dark" : prefersDark;
+  if(isDark) document.documentElement.classList.add("dark");
+  updateDarkIcon();
+}
+function toggleDarkMode(){
+  document.documentElement.classList.toggle("dark");
+  const isDark = document.documentElement.classList.contains("dark");
+  safeSet("jlpt_theme", isDark ? "dark" : "light");
+  updateDarkIcon();
+  const meta = document.getElementById("themeColorMeta");
+  if(meta) meta.setAttribute("content", isDark ? "#0f172a" : "#f8fafc");
+}
+function updateDarkIcon(){
+  const btn = document.getElementById("darkBtn");
+  if(!btn) return;
+  btn.textContent = document.documentElement.classList.contains("dark") ? "☀️" : "🌙";
+}
+
+function loadAll(){
+  const raw = safeGet(STORAGE_KEY);
+  if(raw){
+    try{
+      const parsed = JSON.parse(raw);
+      if(isValidData(parsed)) DATA = parsed;
+      else DATA = cloneDefault();
+    }catch(e){ DATA = cloneDefault(); }
+  }else{
+    DATA = cloneDefault();
+  }
+  const rawB = safeGet(BOOKMARK_KEY);
+  if(rawB){
+    try{ BOOKMARKS = new Set(JSON.parse(rawB)); }catch(e){ BOOKMARKS = new Set(); }
+  }
+}
+function saveData(){ safeSet(STORAGE_KEY, JSON.stringify(DATA)); }
+function saveBookmarks(){ safeSet(BOOKMARK_KEY, JSON.stringify(Array.from(BOOKMARKS))); }
+
+function renderCatTabs(){
+  const el = document.getElementById("catTabs");
+  if(!el) return;
+  el.innerHTML = CATS.map(c=>`<button class="cat-tab ${STATE.cat===c.id?'active':''}" onclick="setCat('${c.id}')">${c.label}</button>`).join("");
+}
+function setCat(cat){ STATE.cat = cat; STATE.keyword = ""; const s = document.getElementById("searchInput"); if(s) s.value = ""; renderAll(); }
+
+function renderLevelFilters(){
+  const el = document.getElementById("levelFilters");
+  if(!el) return;
+  el.innerHTML = LEVELS.map(l=>`<button class="level-btn ${STATE.level===l?'active':''}" onclick="setLevel('${l}')">${l==="ALL"?"全部":l}</button>`).join("");
+}
+function setLevel(l){ STATE.level = l; renderAll(); }
+
+function toggleBookmarkFilter(){
+  STATE.bookmarkOnly = !STATE.bookmarkOnly;
+  const btn = document.getElementById("bookmarkBtn");
+  if(btn) btn.classList.toggle("active", STATE.bookmarkOnly);
+  renderContent();
+}
+function toggleBookmark(id){
+  if(BOOKMARKS.has(id)) BOOKMARKS.delete(id);
+  else BOOKMARKS.add(id);
+  saveBookmarks(); updateBookmarkCount(); renderContent();
+}
+function updateBookmarkCount(){
+  const el = document.getElementById("bookmarkCount");
+  if(el) el.textContent = BOOKMARKS.size;
+}
+
+function getFiltered(){
+  const list = DATA[STATE.cat] || [];
+  return list.filter(item=>{
+    if(STATE.level !== "ALL" && item.level !== STATE.level) return false;
+    if(STATE.bookmarkOnly && !BOOKMARKS.has(item.id)) return false;
+    if(STATE.keyword){
+      const kw = STATE.keyword.toLowerCase();
+      try{ if(!JSON.stringify(item).toLowerCase().includes(kw)) return false; }
+      catch(e){ return false; }
+    }
+    return true;
+  });
+}
+function onSearch(){
+  const el = document.getElementById("searchInput");
+  STATE.keyword = el ? el.value.trim() : "";
+  renderContent();
+}
+
+function generateExternalLinks(word){
+  const e = encodeURIComponent(word || "");
+  return {
+    ojad: `https://www.gavo.t.u-tokyo.ac.jp/ojad/search/index/word:${e}`,
+    takoboto: `https://takoboto.jp/?q=${e}`,
+    mazii: `https://mazii.net/zh-TW/search/word/jatw/${e}`
+  };
+}
+
+function renderContent(){
+  const grid = document.getElementById("contentGrid");
+  const empty = document.getElementById("emptyState");
+  const countEl = document.getElementById("countDisplay");
+  if(!grid) return;
+  const list = getFiltered();
+  if(countEl) countEl.textContent = list.length;
+  if(list.length === 0){
+    grid.innerHTML = "";
+    if(empty) empty.style.display = "block";
+    return;
+  }
+  if(empty) empty.style.display = "none";
+  try{
+    if(STATE.cat === "vocabulary") grid.innerHTML = list.map(renderVocabCard).join("");
+    else if(STATE.cat === "grammar") grid.innerHTML = list.map(renderGrammarCard).join("");
+    else if(STATE.cat === "examPoints") grid.innerHTML = list.map(renderExamCard).join("");
+    else if(STATE.cat === "quiz") grid.innerHTML = list.map(renderQuizCard).join("");
+    bindQuizCards();
+  }catch(e){
+    console.error(e);
+    grid.innerHTML = `<div style="grid-column:1/-1;padding:20px;color:#c00">渲染錯誤：${e.message}</div>`;
+  }
+}
+function levelBadge(level){ return level ? `<span class="badge badge-${level}">${level}</span>` : ""; }
+function isBookmarked(id){ return BOOKMARKS.has(id); }
+
+function renderVocabCard(item){
+  const links = generateExternalLinks(item.word);
+  const bm = isBookmarked(item.id);
+  return `<div class="card">
+    <div class="card-head">
+      <div class="badges">
+        ${levelBadge(item.level)}
+        ${item.category?`<span class="badge badge-cat">${escapeHtml(item.category)}</span>`:""}
+        ${item.year?`<span class="badge badge-year">${escapeHtml(item.year)}</span>`:""}
+      </div>
+      <div class="card-actions">
+        <button class="${bm?'bookmarked':''}" onclick="toggleBookmark('${item.id}')">⭐</button>
+        <button onclick="editItem('${STATE.cat}','${item.id}')">✏️</button>
+        <button onclick="deleteItem('${STATE.cat}','${item.id}')">🗑️</button>
+      </div>
+    </div>
+    <h3 class="card-word">${escapeHtml(item.word||"")}</h3>
+    ${item.reading?`<p class="card-reading">[ ${escapeHtml(item.reading)} ]</p>`:""}
+    <p class="card-meaning">${escapeHtml(item.meaning||"")}</p>
+    ${item.example?`<div class="card-example"><span class="quote">📖 例句</span>${escapeHtml(item.example)}</div>`:""}
+    <div class="card-links">
+      <a href="${links.ojad}" target="_blank" rel="noopener">🔊 OJAD</a>
+      <a href="${links.takoboto}" target="_blank" rel="noopener">📚 Takoboto</a>
+      <a href="${links.mazii}" target="_blank" rel="noopener">🔎 Mazii</a>
+    </div>
+  </div>`;
+}
+function renderGrammarCard(item){
+  const bm = isBookmarked(item.id);
+  return `<div class="card">
+    <div class="card-head">
+      <div class="badges">${levelBadge(item.level)}<span class="badge badge-cat">文法</span></div>
+      <div class="card-actions">
+        <button class="${bm?'bookmarked':''}" onclick="toggleBookmark('${item.id}')">⭐</button>
+        <button onclick="editItem('${STATE.cat}','${item.id}')">✏️</button>
+        <button onclick="deleteItem('${STATE.cat}','${item.id}')">🗑️</button>
+      </div>
+    </div>
+    <h3 class="card-word" style="font-size:20px">${escapeHtml(item.pattern||"")}</h3>
+    <p class="card-meaning">${escapeHtml(item.meaning||"")}</p>
+    ${item.explanation?`<p class="card-explain">${escapeHtml(item.explanation)}</p>`:""}
+    ${item.example?`<div class="card-example"><span class="quote">📖 例句</span>${escapeHtml(item.example)}</div>`:""}
+  </div>`;
+}
+function renderExamCard(item){
+  const bm = isBookmarked(item.id);
+  return `<div class="card">
+    <div class="card-head">
+      <div class="badges">${levelBadge(item.level)}<span class="badge badge-cat">考試重點</span></div>
+      <div class="card-actions">
+        <button class="${bm?'bookmarked':''}" onclick="toggleBookmark('${item.id}')">⭐</button>
+        <button onclick="editItem('${STATE.cat}','${item.id}')">✏️</button>
+        <button onclick="deleteItem('${STATE.cat}','${item.id}')">🗑️</button>
+      </div>
+    </div>
+    <h3 class="card-word" style="font-size:17px">${escapeHtml(item.title||"")}</h3>
+    <p class="card-explain">${escapeHtml(item.content||"")}</p>
+    ${item.tips?`<div class="card-example"><span class="quote">💡 提示</span>${escapeHtml(item.tips)}</div>`:""}
+  </div>`;
+}
+function renderQuizCard(item){
+  const bm = isBookmarked(item.id);
+  const opts = (item.options||[]).map((o,i)=>
+    `<button class="quiz-option" data-qid="${item.id}" data-idx="${i}">${String.fromCharCode(65+i)}. ${escapeHtml(o)}</button>`
+  ).join("");
+  return `<div class="card" data-quizcard="${item.id}">
+    <div class="card-head">
+      <div class="badges">${levelBadge(item.level)}<span class="badge badge-cat">模擬試題</span></div>
+      <div class="card-actions">
+        <button class="${bm?'bookmarked':''}" onclick="toggleBookmark('${item.id}')">⭐</button>
+        <button onclick="editItem('${STATE.cat}','${item.id}')">✏️</button>
+        <button onclick="deleteItem('${STATE.cat}','${item.id}')">🗑️</button>
+      </div>
+    </div>
+    <p class="card-meaning" style="font-size:15px">${escapeHtml(item.question||"")}</p>
+    <div style="margin-top:8px">${opts}</div>
+    <div class="quiz-expl" style="display:none;margin-top:10px;padding:8px 10px;background:var(--input);border-radius:8px;font-size:12px;color:var(--text2)"></div>
+  </div>`;
+}
+function bindQuizCards(){
+  document.querySelectorAll("[data-quizcard]").forEach(card=>{
+    const qid = card.getAttribute("data-quizcard");
+    const item = DATA.quiz.find(x=>x.id===qid);
+    if(!item) return;
+    const btns = card.querySelectorAll(".quiz-option");
+    btns.forEach(btn=>{
+      btn.onclick = ()=>{
+        const idx = parseInt(btn.getAttribute("data-idx"));
+        btns.forEach(b=>b.disabled=true);
+        if(idx === item.answer) btn.classList.add("correct");
+        else{ btn.classList.add("wrong"); if(btns[item.answer]) btns[item.answer].classList.add("correct"); }
+        const exp = card.querySelector(".quiz-expl");
+        if(exp){ exp.style.display = "block"; exp.textContent = "解釋：" + (item.explanation || ""); }
+      };
+    });
+  });
+}
+function escapeHtml(s){
+  return String(s).replace(/[&<>"']/g, c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+}
+
+function openAddModal(){
+  document.getElementById("editId").value = "";
+  document.getElementById("editCat").value = "";
+  document.getElementById("modalTitle").textContent = "➕ 新增資料";
+  document.getElementById("wordForm").reset();
+  document.getElementById("inputCat").value = STATE.cat;
+  onCatChange();
+  document.getElementById("addModal").classList.add("show");
+}
+function closeAddModal(){ document.getElementById("addModal").classList.remove("show"); }
+function onCatChange(){
+  const cat = document.getElementById("inputCat").value;
+  ["vocabulary","grammar","examPoints","quiz"].forEach(c=>{
+    const el = document.getElementById("fields-"+c);
+    if(el) el.style.display = (c===cat)?"block":"none";
+  });
+}
+function editItem(cat, id){
+  const item = (DATA[cat]||[]).find(x=>String(x.id)===String(id));
+  if(!item) return;
+  document.getElementById("editId").value = item.id;
+  document.getElementById("editCat").value = cat;
+  document.getElementById("inputCat").value = cat;
+  document.getElementById("inputLevel").value = item.level || "N1";
+  document.getElementById("modalTitle").textContent = "✏️ 編輯資料";
+  onCatChange();
+  if(cat === "vocabulary"){
+    document.getElementById("v_word").value = item.word||"";
+    document.getElementById("v_reading").value = item.reading||"";
+    document.getElementById("v_category").value = item.category||"";
+    document.getElementById("v_meaning").value = item.meaning||"";
+    document.getElementById("v_example").value = item.example||"";
+  }else if(cat === "grammar"){
+    document.getElementById("g_pattern").value = item.pattern||"";
+    document.getElementById("g_meaning").value = item.meaning||"";
+    document.getElementById("g_explanation").value = item.explanation||"";
+    document.getElementById("g_example").value = item.example||"";
+  }else if(cat === "examPoints"){
+    document.getElementById("e_title").value = item.title||"";
+    document.getElementById("e_content").value = item.content||"";
+    document.getElementById("e_tips").value = item.tips||"";
+  }else if(cat === "quiz"){
+    document.getElementById("q_question").value = item.question||"";
+    document.getElementById("q_options").value = (item.options||[]).join("\n");
+    document.getElementById("q_answer").value = (item.answer||0)+1;
+    document.getElementById("q_explanation").value = item.explanation||"";
+  }
+  document.getElementById("addModal").classList.add("show");
+}
+function saveWord(e){
+  e.preventDefault();
+  const cat = document.getElementById("inputCat").value;
+  const level = document.getElementById("inputLevel").value;
+  const editId = document.getElementById("editId").value;
+  const editCat = document.getElementById("editCat").value;
+  let obj = { level };
+  if(cat === "vocabulary"){
+    const w = document.getElementById("v_word").value.trim();
+    const m = document.getElementById("v_meaning").value.trim();
+    if(!w || !m){ toast("請填寫單字與釋義"); return; }
+    obj = {...obj, word:w, reading:document.getElementById("v_reading").value.trim(),
+      category:document.getElementById("v_category").value.trim(),
+      meaning:m, example:document.getElementById("v_example").value.trim() };
+  }else if(cat === "grammar"){
+    const p = document.getElementById("g_pattern").value.trim();
+    const m = document.getElementById("g_meaning").value.trim();
+    if(!p || !m){ toast("請填寫句型與意思"); return; }
+    obj = {...obj, pattern:p, meaning:m,
+      explanation:document.getElementById("g_explanation").value.trim(),
+      example:document.getElementById("g_example").value.trim() };
+  }else if(cat === "examPoints"){
+    const t = document.getElementById("e_title").value.trim();
+    const c = document.getElementById("e_content").value.trim();
+    if(!t || !c){ toast("請填寫標題與內容"); return; }
+    obj = {...obj, title:t, content:c, tips:document.getElementById("e_tips").value.trim() };
+  }else if(cat === "quiz"){
+    const q = document.getElementById("q_question").value.trim();
+    const optsRaw = document.getElementById("q_options").value.trim().split("\n").map(s=>s.trim()).filter(Boolean);
+    const ans = parseInt(document.getElementById("q_answer").value)-1;
+    if(!q || optsRaw.length < 2){ toast("請填寫題目與至少 2 個選項"); return; }
+    obj = {...obj, question:q, options:optsRaw, answer:isNaN(ans)?0:ans,
+      explanation:document.getElementById("q_explanation").value.trim() };
+  }
+  if(editId && editCat){
+    const list = DATA[editCat]||[];
+    const idx = list.findIndex(x=>String(x.id)===String(editId));
+    if(idx > -1){
+      if(editCat !== cat){ list.splice(idx,1); DATA[cat].push({...obj, id:editId}); }
+      else list[idx] = {...list[idx], ...obj};
+    }
+  }else{
+    DATA[cat].push({...obj, id: cat[0] + Date.now() + Math.floor(Math.random()*1000)});
+  }
+  saveData(); renderAll(); closeAddModal(); toast("✅ 已儲存");
+}
+function deleteItem(cat, id){
+  if(!confirm("確定刪除？")) return;
+  DATA[cat] = (DATA[cat]||[]).filter(x=>String(x.id)!==String(id));
+  BOOKMARKS.delete(id); saveBookmarks(); saveData(); updateBookmarkCount(); renderContent(); toast("已刪除");
+}
+
+function openDrawer(){
+  document.getElementById("drawerPanel").classList.add("show");
+  document.getElementById("drawerBackdrop").classList.add("show");
+}
+function closeDrawer(){
+  document.getElementById("drawerPanel").classList.remove("show");
+  document.getElementById("drawerBackdrop").classList.remove("show");
+}
+function loadDefaultData(){
+  if(!confirm("重新載入內建＋嵌入資料？目前的編輯會遺失。")) return;
+  DATA = cloneDefault(); saveData(); renderAll(); toast("✅ 已重載"); closeDrawer();
+}
+function resetAll(){
+  if(!confirm("清除所有自訂資料並還原？")) return;
+  safeRemove(STORAGE_KEY); safeRemove(BOOKMARK_KEY);
+  BOOKMARKS = new Set(); DATA = cloneDefault();
+  saveData(); saveBookmarks(); updateBookmarkCount(); renderAll();
+  toast("已重置"); closeDrawer();
+}
+
+function exportJSON(){
+  try{
+    const blob = new Blob([JSON.stringify(DATA, null, 2)], {type:"application/json"});
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url; a.download = `jlpt_backup_${new Date().toISOString().slice(0,10)}.json`;
+    document.body.appendChild(a); a.click(); document.body.removeChild(a);
+    URL.revokeObjectURL(url); toast("已匯出 JSON");
+  }catch(e){ toast("匯出失敗：" + e.message); }
+}
+function exportCSV(){
+  try{
+    const headers = ["類別","級別","主要","讀音","意思","解釋","例句","選項","答案"];
+    const rows = [];
+    (DATA.vocabulary||[]).forEach(v=>rows.push(["vocabulary",v.level||"",v.word||"",v.reading||"",v.meaning||"",v.category||"",v.example||"","",""]));
+    (DATA.grammar||[]).forEach(g=>rows.push(["grammar",g.level||"",g.pattern||"","",g.meaning||"",g.explanation||"",g.example||"","",""]));
+    (DATA.examPoints||[]).forEach(e=>rows.push(["examPoints",e.level||"",e.title||"","",e.content||"",e.tips||"","","",""]));
+    (DATA.quiz||[]).forEach(q=>rows.push(["quiz",q.level||"",q.question||"","","",q.explanation||"","",(q.options||[]).join("|"),q.answer||0]));
+    const csv = "\uFEFF" + [headers.join(","), ...rows.map(r=>r.map(c=>`"${String(c).replace(/"/g,'""')}"`).join(","))].join("\n");
+    const blob = new Blob([csv], {type:"text/csv;charset=utf-8;"});
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url; a.download = `jlpt_backup_${new Date().toISOString().slice(0,10)}.csv`;
+    document.body.appendChild(a); a.click(); document.body.removeChild(a);
+    URL.revokeObjectURL(url); toast("已匯出 CSV");
+  }catch(e){ toast("匯出失敗：" + e.message); }
+}
+function importJSONFile(e){
+  const file = e.target.files[0];
+  if(!file) return;
+  const reader = new FileReader();
+  reader.onload = ev=>{
+    try{
+      const parsed = JSON.parse(ev.target.result);
+      const counts = mergeImport(parsed);
+      const total = counts.vocabulary+counts.grammar+counts.examPoints+counts.quiz;
+      if(total === 0 && counts.skipped === 0){ toast("格式不符"); return; }
+      saveData(); renderAll();
+      toast(`✅ 新增：單字+${counts.vocabulary}、文法+${counts.grammar}、重點+${counts.examPoints}、試題+${counts.quiz}｜跳過重複 ${counts.skipped} 筆`);
+      closeDrawer();
+    }catch(err){ toast("JSON 解析失敗"); }
+    e.target.value = "";
+  };
+  reader.readAsText(file, "UTF-8");
+}
+/* ===== 完全重複判斷：把 item 轉成可比較的字串（去掉 id）===== */
+function normalizeItem(item){
+  if(!item || typeof item !== "object") return "";
+  const keys = Object.keys(item).filter(k => k !== "id").sort();
+  const normalized = {};
+  keys.forEach(k => { normalized[k] = item[k]; });
+  try{ return JSON.stringify(normalized); }
+  catch(e){ return ""; }
+}
+
+/* ===== 建立某分類現有的 normalized Set（加速比對）===== */
+function buildNormalizedSet(cat){
+  const list = DATA[cat] || [];
+  const set = new Set();
+  list.forEach(item => {
+    const n = normalizeItem(item);
+    if(n) set.add(n);
+  });
+  return set;
+}
+
+/* ===== upsert：完全重複就跳過，否則追加 ===== */
+function upsertItems(cat, items, idPrefix){
+  const existingSet = buildNormalizedSet(cat);
+  let added = 0, skipped = 0;
+  (items || []).forEach(item => {
+    if(!item || typeof item !== "object"){ skipped++; return; }
+    const n = normalizeItem(item);
+    if(!n){ skipped++; return; }
+    if(existingSet.has(n)){ skipped++; return; }
+    existingSet.add(n);
+    DATA[cat].push({
+      ...item,
+      id: item.id || (idPrefix + Date.now() + Math.floor(Math.random()*10000))
+    });
+    added++;
+  });
+  return { added, skipped };
+}
+
+function mergeImport(p){
+  const counts = { vocabulary:0, grammar:0, examPoints:0, quiz:0, skipped:0 };
+
+  // 情況 1：純陣列 → 當作單字匯入
+  if(Array.isArray(p)){
+    const items = [];
+    p.forEach(item => {
+      if(item && item.word && (item.meaning || item.definition)){
+        items.push({
+          level: item.level || "N1",
+          word: item.word,
+          reading: item.reading || item.kana || "",
+          meaning: item.meaning || item.definition || "",
+          category: item.category || item.type || item.pos || item.partOfSpeech || "",
+          example: item.example || item.sentence || "",
+          year: item.year || ""
+        });
+      }
+    });
+    const r = upsertItems("vocabulary", items, "v_");
+    counts.vocabulary = r.added;
+    counts.skipped = r.skipped;
+    return counts;
+  }
+  if(p && typeof p === "object"){
+  // 情況 2：物件 → 逐類 upsert
+  if(p && typeof p === "object"){
+    ["vocabulary","grammar","examPoints","quiz"].forEach(cat=>{
+      if(Array.isArray(p[cat])){
+        const r = upsertItems(cat, p[cat], cat[0] + "_");
+        counts[cat] = r.added;
+        counts.skipped += r.skipped;
+      }
+    });
+  }
+  return counts;
+}
+  if(p && typeof p === "object"){
+    ["vocabulary","grammar","examPoints","quiz"].forEach(cat=>{
+      if(Array.isArray(p[cat])){
+        p[cat].forEach((item, i)=>{
+          if(!item || typeof item !== "object") return;
+          DATA[cat].push({...item, id: item.id || (cat[0] + stamp + i + Math.floor(Math.random()*1000))});
+          counts[cat]++;
+        });
+      }
+    });
+  }
+  return counts;
+}
+function importCSVFile(e){
+  const file = e.target.files[0];
+  if(!file) return;
+  const reader = new FileReader();
+  reader.onload = ev=>{
+    try{
+      const text = ev.target.result.replace(/^\uFEFF/, "");
+      const rows = parseCSV(text);
+      const buckets = { vocabulary:[], grammar:[], examPoints:[], quiz:[] };
+
+      rows.slice(1).forEach(r=>{
+        const cat = (r[0]||"").trim();
+        if(!buckets[cat]) return;
+        const level = (r[1]||"").trim() || "N1";
+        const main = (r[2]||"").trim();
+        if(!main) return;
+
+        if(cat === "vocabulary"){
+          buckets.vocabulary.push({
+            level, word:main,
+            reading:(r[3]||"").trim(),
+            meaning:(r[4]||"").trim(),
+            category:(r[5]||"").trim(),
+            example:(r[6]||"").trim(),
+            year:""
+          });
+        }else if(cat === "grammar"){
+          buckets.grammar.push({
+            level, pattern:main,
+            meaning:(r[4]||"").trim(),
+            explanation:(r[5]||"").trim(),
+            example:(r[6]||"").trim()
+          });
+        }else if(cat === "examPoints"){
+          buckets.examPoints.push({
+            level, title:main,
+            content:(r[4]||"").trim(),
+            tips:(r[5]||"").trim()
+          });
+        }else if(cat === "quiz"){
+          const opts = (r[7]||"").split("|").map(s=>s.trim()).filter(Boolean);
+          if(opts.length >= 2){
+            buckets.quiz.push({
+              level, question:main, options:opts,
+              answer: parseInt(r[8]||"0")||0,
+              explanation:(r[5]||"").trim()
+            });
+          }
+        }
+      });
+
+      const counts = { vocabulary:0, grammar:0, examPoints:0, quiz:0, skipped:0 };
+      Object.keys(buckets).forEach(cat=>{
+        const r = upsertItems(cat, buckets[cat], cat[0] + "_");
+        counts[cat] = r.added;
+        counts.skipped += r.skipped;
+      });
+
+      saveData(); renderAll();
+      toast(`✅ 新增：單字+${counts.vocabulary}、文法+${counts.grammar}、重點+${counts.examPoints}、試題+${counts.quiz}｜跳過重複 ${counts.skipped} 筆`);
+      closeDrawer();
+    }catch(err){ toast("CSV 解析失敗：" + err.message); }
+    e.target.value = "";
+  };
+  reader.readAsText(file, "UTF-8");
+}
+function parseCSV(text){
+  const rows = []; let cur = [], field = "", inQ = false;
+  for(let i=0;i<text.length;i++){
+    const c = text[i];
+    if(inQ){
+      if(c === '"'){ if(text[i+1] === '"'){ field += '"'; i++; } else inQ = false; }
+      else field += c;
+    }else{
+      if(c === '"') inQ = true;
+      else if(c === ","){ cur.push(field); field = ""; }
+      else if(c === "\n"){ cur.push(field); rows.push(cur); cur=[]; field=""; }
+      else if(c === "\r"){}
+      else field += c;
+    }
+  }
+  if(field || cur.length){ cur.push(field); rows.push(cur); }
+  return rows.filter(r=>r.some(c=>String(c).trim()!==""));
+}
+
+function openPasteModal(){ document.getElementById("pasteModal").classList.add("show"); }
+function closePasteModal(){ document.getElementById("pasteModal").classList.remove("show"); }
+function processPastedJSON(){
+  const raw = document.getElementById("pasteInput").value.trim();
+  if(!raw){ toast("請貼上 JSON"); return; }
+  let p;
+  try{ p = JSON.parse(raw); }catch(e){ toast("❌ JSON 格式錯誤"); return; }
+  try{
+    const counts = mergeImport(p);
+    const total = counts.vocabulary + counts.grammar + counts.examPoints + counts.quiz;
+    if(total === 0 && counts.skipped === 0){ toast("⚠️ 格式不符或無資料"); return; }
+    saveData(); renderAll();
+    toast(`✅ 新增：單字+${counts.vocabulary}、文法+${counts.grammar}、重點+${counts.examPoints}、試題+${counts.quiz}｜跳過重複 ${counts.skipped} 筆`);
+    document.getElementById("pasteInput").value = "";
+    closePasteModal();
+  }catch(e){ toast("匯入失敗：" + e.message); }
+}
+
+function startFlashcardQuiz(){
+  const list = getFiltered();
+  if(list.length === 0){ toast("目前沒有可測驗的資料"); return; }
+  quizState = { mode:"flash", list, index:0, flipped:false };
+  document.getElementById("quizTitle").textContent = "🎴 翻牌測驗";
+  document.getElementById("flashcardMode").style.display = "block";
+  document.getElementById("choiceMode").style.display = "none";
+  document.getElementById("quizModal").classList.add("show");
+  renderFlashcard();
+}
+function renderFlashcard(){
+  const c = quizState.list[quizState.index]; if(!c) return;
+  document.getElementById("quizProgress").textContent = `${quizState.index+1} / ${quizState.list.length}`;
+  const lvEl = document.getElementById("fcLevel");
+  lvEl.className = "badge badge-" + (c.level||"N5");
+  lvEl.textContent = c.level || "";
+  document.getElementById("fcCategory").textContent = c.category || c.pattern || "單字";
+  document.getElementById("fcWord").textContent = c.word || c.pattern || c.title || c.question || "";
+  document.getElementById("fcReading").textContent = c.reading ? `[ ${c.reading} ]` : "";
+  document.getElementById("fcMeaning").textContent = c.meaning || c.content || c.explanation || (c.options ? c.options[c.answer] : "");
+  const ex = document.getElementById("fcExample");
+  ex.textContent = c.example || c.explanation || "";
+  ex.style.display = (c.example || c.explanation) ? "block" : "none";
+  document.getElementById("fcYear").textContent = c.year || "";
+  document.getElementById("fcInner").classList.remove("flipped");
+  quizState.flipped = false;
+}
+function flipCard(){
+  quizState.flipped = !quizState.flipped;
+  document.getElementById("fcInner").classList.toggle("flipped", quizState.flipped);
+}
+function nextCard(){
+  if(quizState.index < quizState.list.length - 1){ quizState.index++; renderFlashcard(); }
+  else toast("🎉 已完成所有卡片");
+}
+function prevCard(){
+  if(quizState.index > 0){ quizState.index--; renderFlashcard(); }
+}
+function startChoiceQuiz(){
+  const vocab = (DATA.vocabulary||[]).filter(item=>{
+    if(STATE.level !== "ALL" && item.level !== STATE.level) return false;
+    return item.meaning && item.word;
+  });
+  if(vocab.length < 4){ toast("至少需要 4 個單字才能測驗"); return; }
+  const shuffled = [...vocab].sort(()=>Math.random()-0.5).slice(0, Math.min(10, vocab.length));
+  quizState = { mode:"choice", list:shuffled, index:0, pool:vocab };
+  document.getElementById("quizTitle").textContent = "📝 四選一測驗";
+  document.getElementById("flashcardMode").style.display = "none";
+  document.getElementById("choiceMode").style.display = "block";
+  document.getElementById("quizModal").classList.add("show");
+  renderChoiceQuestion();
+}
+function renderChoiceQuestion(){
+  const c = quizState.list[quizState.index]; if(!c) return;
+  document.getElementById("quizProgress").textContent = `${quizState.index+1} / ${quizState.list.length}`;
+  const lvEl = document.getElementById("mcLevel");
+  lvEl.className = "badge badge-" + (c.level||"N5");
+  lvEl.textContent = c.level || "";
+  document.getElementById("mcCategory").textContent = c.category || "單字";
+  document.getElementById("mcWord").textContent = c.word || "";
+  document.getElementById("mcReading").textContent = c.reading ? `[ ${c.reading} ]` : "";
+  document.getElementById("mcFeedback").textContent = "";
+  const others = quizState.pool.filter(x=>x.id !== c.id).sort(()=>Math.random()-0.5).slice(0,3);
+  const opts = [...others, c].sort(()=>Math.random()-0.5);
+  const box = document.getElementById("mcOptions");
+  box.innerHTML = opts.map(o=>`<button class="quiz-option" data-correct="${o.id === c.id}">${escapeHtml(o.meaning)}</button>`).join("");
+  box.querySelectorAll(".quiz-option").forEach(btn=>{
+    btn.onclick = ()=>{
+      const correct = btn.getAttribute("data-correct") === "true";
+      box.querySelectorAll(".quiz-option").forEach(b=>{
+        b.disabled = true;
+        if(b.getAttribute("data-correct") === "true") b.classList.add("correct");
+      });
+      if(!correct) btn.classList.add("wrong");
+      const fb = document.getElementById("mcFeedback");
+      fb.textContent = correct ? "✅ 正確！" : "❌ 答錯了";
+      fb.style.color = correct ? "var(--matcha500)" : "#dc2626";
+      setTimeout(()=>{
+        if(quizState.index < quizState.list.length - 1){ quizState.index++; renderChoiceQuestion(); }
+        else{ toast("🎉 測驗完成！"); closeQuizModal(); }
+      }, 1000);
+    };
+  });
+}
+function closeQuizModal(){ document.getElementById("quizModal").classList.remove("show"); }
+
+function renderAll(){
+  try{
+    renderCatTabs(); renderLevelFilters(); updateBookmarkCount();
+    const btn = document.getElementById("bookmarkBtn");
+    if(btn) btn.classList.toggle("active", STATE.bookmarkOnly);
+    renderContent();
+  }catch(e){ console.error(e); }
+}
+
+function init(){
+  loadAll();
+  initDarkMode();
+  document.querySelectorAll(".modal").forEach(m=>{
+    m.addEventListener("click", e=>{ if(e.target === m) m.classList.remove("show"); });
+  });
+  renderAll();
+
+  // 顯示合併結果
+  const counts = {
+    vocabulary: DATA.vocabulary ? DATA.vocabulary.length : 0,
+    grammar: DATA.grammar ? DATA.grammar.length : 0,
+    examPoints: DATA.examPoints ? DATA.examPoints.length : 0,
+    quiz: DATA.quiz ? DATA.quiz.length : 0
+  };
+  setTimeout(()=>{
+    toast(`✅ 載入完成：單字 ${counts.vocabulary}、文法 ${counts.grammar}、重點 ${counts.examPoints}、試題 ${counts.quiz}`);
+  }, 300);
+}
+if(document.readyState === "loading") document.addEventListener("DOMContentLoaded", init);
+else init();
+</script>
+</body>
+</html>
